@@ -41,6 +41,11 @@ func (server *Server) Serve() error {
 		server.router = gin.New()
 		gin.SetMode(gin.ReleaseMode)
 	}
+	if server.Render == nil {
+		server.Render = func(c *gin.Context, status int, body map[string]string) {
+			c.JSON(status, body)
+		}
+	}
 
 	server.router.GET("/verify/:identifier", func(c *gin.Context) {
 		identifier := c.Param("identifier")
